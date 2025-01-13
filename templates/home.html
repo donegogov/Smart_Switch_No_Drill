@@ -1,0 +1,92 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi LED demo</title>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <h1>Control LED connected to Raspberry Pi</h1>
+        <button onclick="onSwitchOn()" class="onBtn">Turn ON</button>
+        <br>
+        <br>
+        <button onclick="onSwitchOff()" class="offBtn">Turn OFF</button>
+    </div>
+    
+    </br>
+    
+    <div style="text-align: center;">
+        <h1>Control MOTION MODE</h1>
+        <button onclick="onMotionModeOn()" class="onBtn">Turn ON</button>
+        <br>
+        <br>
+        <button onclick="onMotionModeOff()" class="offBtn">Turn OFF</button>
+    </div>
+</body>
+
+<script type="application/javascript">
+    const setSwitchState = async (isSwitchOn) => {
+        const fetchSettings = { method: 'POST' };
+        const fetchResponse = await fetch("/switch/" + (isSwitchOn ? 1 : 0), fetchSettings);
+        if (!fetchResponse.ok) {
+            alert("command not executed by raspberry pi...");
+        }
+    }
+
+    function onSwitchOn() {
+        setSwitchState(true);
+    }
+
+    function onSwitchOff() {
+        setSwitchState(false);
+    }
+    
+    const setMotionMode = async (isMotionModeOn) => {
+        const fetchSettings = { method: 'POST' };
+        const fetchResponse = await fetch("/motion/" + (isMotionModeOn ? 1 : 0), fetchSettings);
+        if (!fetchResponse.ok) {
+            alert("command not executed by raspberry pi...");
+        }
+    }
+
+    function onMotionModeOn() {
+        setMotionMode(true);
+    }
+
+    function onMotionModeOff() {
+        setMotionMode(false);
+    }
+</script>
+
+<style>
+    button {
+        color: white;
+        padding: 1em;
+        font-weight: bold;
+        font-size: 2em;
+    }
+
+    .onBtn {
+        background-color: #60A917;
+    }
+
+    .onBtn:active {
+        background-color: #56703c;
+    }
+
+    .offBtn {
+        background-color: #E51400;
+    }
+
+    .offBtn:active {
+        background-color: #8c3730;
+    }
+</style>
+
+</html>
+
+
